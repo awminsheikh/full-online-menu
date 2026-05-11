@@ -75,28 +75,34 @@ export default function Dashboard() {
 
 	return (
 		<AdminLayout>
-			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-				<p className="text-gray-600 mt-1">Welcome to {shopName} admin panel</p>
+			<div className="mb-4 md:mb-8">
+				<h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+					Dashboard
+				</h1>
+				<p className="text-sm md:text-base text-gray-600 mt-1">
+					Welcome to {shopName} admin panel
+				</p>
 			</div>
 
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
 				{statCards.map((stat, index) => {
 					const Icon = stat.icon;
 					return (
 						<div
 							key={index}
-							className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
+							className="bg-white rounded-lg shadow-sm p-4 md:p-6 border border-gray-200"
 						>
 							<div className="flex items-center justify-between">
 								<div>
-									<p className="text-sm text-gray-500 mb-1">{stat.title}</p>
-									<p className="text-3xl font-bold text-gray-800">
+									<p className="text-xs md:text-sm text-gray-500 mb-1">
+										{stat.title}
+									</p>
+									<p className="text-2xl md:text-3xl font-bold text-gray-800">
 										{stat.value}
 									</p>
 								</div>
-								<div className={`${stat.color} p-3 rounded-full`}>
-									<Icon className="w-6 h-6 text-white" />
+								<div className={`${stat.color} p-2 md:p-3 rounded-full`}>
+									<Icon className="w-4 h-4 md:w-6 md:h-6 text-white" />
 								</div>
 							</div>
 						</div>
@@ -104,25 +110,38 @@ export default function Dashboard() {
 				})}
 			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-					<h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-					<div className="space-y-3">
-						<button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
+					<h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+						Quick Actions
+					</h2>
+					<div className="space-y-2 md:space-y-3">
+						<a
+							href="/categories"
+							className="block w-full text-left px-3 md:px-4 py-2 md:py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base"
+						>
 							➕ Add New Category
-						</button>
-						<button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+						</a>
+						<a
+							href="/products"
+							className="block w-full text-left px-3 md:px-4 py-2 md:py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base"
+						>
 							📦 Add New Product
-						</button>
-						<button className="w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+						</a>
+						<a
+							href="/shop"
+							className="block w-full text-left px-3 md:px-4 py-2 md:py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm md:text-base"
+						>
 							✏️ Update Shop Information
-						</button>
+						</a>
 					</div>
 				</div>
 
-				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-					<h2 className="text-lg font-semibold mb-4">System Info</h2>
-					<div className="space-y-2 text-sm">
+				<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
+					<h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
+						System Info
+					</h2>
+					<div className="space-y-2 text-xs md:text-sm">
 						<p className="flex justify-between">
 							<span className="text-gray-500">API Status:</span>
 							<span className="text-green-600 font-medium">● Online</span>

@@ -80,3 +80,30 @@
 		margin-bottom: 0.25rem;
 	}
 }
+@keyframes slide-up {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+.animate-slide-up {
+	animation: slide-up 0.3s ease-out;
+}
+
+/* Better touch targets on mobile */
+@media (max-width: 768px) {
+	button,
+	a,
+	[role="button"] {
+		min-height: 44px;
+	}
+
+	input,
+	select,
+	textarea {
+		font-size: 16px !important; /* Prevents zoom on focus in iOS */
+	}
+}
