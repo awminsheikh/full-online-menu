@@ -11,6 +11,7 @@ import {
 	SettingsIcon,
 	MenuIcon,
 	XIcon,
+	UserIcon,
 } from "lucide-react";
 
 const menuItems = [
@@ -18,6 +19,7 @@ const menuItems = [
 	{ name: "Shop Info", href: "/shop", icon: StoreIcon },
 	{ name: "Categories", href: "/categories", icon: TagIcon },
 	{ name: "Products", href: "/products", icon: PackageIcon },
+	{ name: 'Admins', href: '/admins', icon: UserIcon },
 	{ name: "Settings", href: "/settings", icon: SettingsIcon },
 ];
 
@@ -106,7 +108,7 @@ export default function Sidebar() {
 										: ""
 								}`}
 							>
-								<Icon className="w-5 h-5 mr-3 flex-shrink-0" />
+								<Icon className="w-5 h-5 mr-3 shrink-0" />
 								<span className="text-sm">{item.name}</span>
 							</Link>
 						);

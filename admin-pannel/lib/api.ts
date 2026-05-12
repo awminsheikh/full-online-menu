@@ -1,4 +1,3 @@
-import { Shop, Category, Product } from "@/types";
 import axios from "axios";
 
 const API_BASE_URL =
@@ -9,17 +8,32 @@ const api = axios.create({
 	headers: {
 		"Content-Type": "application/json",
 	},
+	withCredentials: true, // Important for sending cookies
 });
 
-// Simple auth interceptor (you can expand this later)
+// Add token to requests
 api.interceptors.request.use((config) => {
-	// You can add token here if you implement authentication
-	const token = localStorage.getItem("admin_token");
+	const token = localStorage.getItem("token");
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
 	return config;
 });
+
+// Handle 401 responses
+api.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		if (error.response?.status === 401) {
+			localStorage.removeItem("token");
+			// Don't redirect if we're already on login page
+			if (!window.location.pathname.includes("/login")) {
+				window.location.href = "/login";
+			}
+		}
+		return Promise.reject(error);
+	},
+);
 
 // Shop APIs
 export const shopApi = {
@@ -53,3 +67,6 @@ export const productApi = {
 };
 
 export default api;
+
+// Import types
+import { Shop, Category, Product } from "@/types";

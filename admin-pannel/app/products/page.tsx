@@ -9,6 +9,7 @@ import Input from "@/components/UI/Input";
 import toast from "react-hot-toast";
 import { Product, Category } from "@/types";
 import { EditIcon, TrashIcon, PlusIcon } from "lucide-react";
+import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 
 export default function ProductsPage() {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -147,231 +148,233 @@ export default function ProductsPage() {
 	}
 
 	return (
-		<AdminLayout>
-			<div className="mb-8 flex justify-between items-center">
-				<div>
-					<h1 className="text-3xl font-bold text-gray-800">Products</h1>
-					<p className="text-gray-600 mt-1">Manage your menu products</p>
+		<ProtectedRoute>
+			<AdminLayout>
+				<div className="mb-8 flex justify-between items-center">
+					<div>
+						<h1 className="text-3xl font-bold text-gray-800">Products</h1>
+						<p className="text-gray-600 mt-1">Manage your menu products</p>
+					</div>
+					<Button onClick={() => handleOpenModal()}>
+						<PlusIcon className="w-4 h-4 mr-2 inline" />
+						Add Product
+					</Button>
 				</div>
-				<Button onClick={() => handleOpenModal()}>
-					<PlusIcon className="w-4 h-4 mr-2 inline" />
-					Add Product
-				</Button>
-			</div>
 
-			<div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-				<table className="min-w-full divide-y divide-gray-200">
-					<thead className="bg-gray-50">
-						<tr>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Name
-							</th>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Category
-							</th>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Price
-							</th>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Status
-							</th>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Popular
-							</th>
-							<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Actions
-							</th>
-						</tr>
-					</thead>
-					<tbody className="bg-white divide-y divide-gray-200">
-						{products.map((product) => (
-							<tr key={product.id} className="hover:bg-gray-50">
-								<td className="px-6 py-4 whitespace-nowrap">
-									<div className="text-sm font-medium text-gray-900">
-										{product.name}
-									</div>
-									<div className="text-sm text-gray-500">
-										{product.description?.substring(0, 50)}
-									</div>
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap">
-									<div className="text-sm text-gray-500">
-										{product.category_name}
-									</div>
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap">
-									<div className="text-sm font-medium text-gray-900">
-										${product.price.toFixed(2)}
-									</div>
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap">
-									<span
-										className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-											product.isAvailable
-												? "bg-green-100 text-green-800"
-												: "bg-red-100 text-red-800"
-										}`}
-									>
-										{product.isAvailable ? "Available" : "Unavailable"}
-									</span>
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap">
-									{product.isPopular ? "⭐ Yes" : "No"}
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-									<button
-										onClick={() => handleOpenModal(product)}
-										className="text-blue-600 hover:text-blue-900 mr-3"
-									>
-										<EditIcon className="w-4 h-4" />
-									</button>
-									<button
-										onClick={() => handleDelete(product.id)}
-										className="text-red-600 hover:text-red-900"
-									>
-										<TrashIcon className="w-4 h-4" />
-									</button>
-								</td>
+				<div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+					<table className="min-w-full divide-y divide-gray-200">
+						<thead className="bg-gray-50">
+							<tr>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Name
+								</th>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Category
+								</th>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Price
+								</th>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Status
+								</th>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Popular
+								</th>
+								<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+									Actions
+								</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
+						</thead>
+						<tbody className="bg-white divide-y divide-gray-200">
+							{products.map((product) => (
+								<tr key={product.id} className="hover:bg-gray-50">
+									<td className="px-6 py-4 whitespace-nowrap">
+										<div className="text-sm font-medium text-gray-900">
+											{product.name}
+										</div>
+										<div className="text-sm text-gray-500">
+											{product.description?.substring(0, 50)}
+										</div>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										<div className="text-sm text-gray-500">
+											{product.category_name}
+										</div>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										<div className="text-sm font-medium text-gray-900">
+											${product.price.toFixed(2)}
+										</div>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										<span
+											className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+												product.isAvailable
+													? "bg-green-100 text-green-800"
+													: "bg-red-100 text-red-800"
+											}`}
+										>
+											{product.isAvailable ? "Available" : "Unavailable"}
+										</span>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{product.isPopular ? "⭐ Yes" : "No"}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+										<button
+											onClick={() => handleOpenModal(product)}
+											className="text-blue-600 hover:text-blue-900 mr-3"
+										>
+											<EditIcon className="w-4 h-4" />
+										</button>
+										<button
+											onClick={() => handleDelete(product.id)}
+											className="text-red-600 hover:text-red-900"
+										>
+											<TrashIcon className="w-4 h-4" />
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 
-			<Modal
-				isOpen={modalOpen}
-				onClose={handleCloseModal}
-				title={editingProduct ? "Edit Product" : "Add Product"}
-			>
-				<form
-					onSubmit={handleSubmit}
-					className="space-y-4 max-h-96 overflow-y-auto"
+				<Modal
+					isOpen={modalOpen}
+					onClose={handleCloseModal}
+					title={editingProduct ? "Edit Product" : "Add Product"}
 				>
-					<Input
-						label="Product Name"
-						name="name"
-						value={formData.name}
-						onChange={handleChange}
-						required
-					/>
-
-					<Input
-						label="Description"
-						name="description"
-						value={formData.description}
-						onChange={handleChange}
-						textarea
-						rows={3}
-					/>
-
-					<div className="grid grid-cols-2 gap-4">
+					<form
+						onSubmit={handleSubmit}
+						className="space-y-4 max-h-96 overflow-y-auto"
+					>
 						<Input
-							label="Price"
-							name="price"
-							type="number"
-							value={formData.price}
+							label="Product Name"
+							name="name"
+							value={formData.name}
 							onChange={handleChange}
-							step="0.01"
-							min={0}
 							required
 						/>
 
-						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Category *
-							</label>
-							<select
-								name="category_id"
-								value={formData.category_id}
+						<Input
+							label="Description"
+							name="description"
+							value={formData.description}
+							onChange={handleChange}
+							textarea
+							rows={3}
+						/>
+
+						<div className="grid grid-cols-2 gap-4">
+							<Input
+								label="Price"
+								name="price"
+								type="number"
+								value={formData.price}
 								onChange={handleChange}
-								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+								step="0.01"
+								min={0}
 								required
-							>
-								<option value={0}>Select a category</option>
-								{categories.map((cat) => (
-									<option key={cat.id} value={cat.id}>
-										{cat.name}
-									</option>
-								))}
-							</select>
-						</div>
-					</div>
-
-					<Input
-						label="Image URL"
-						name="image"
-						value={formData.image}
-						onChange={handleChange}
-					/>
-
-					<div className="grid grid-cols-2 gap-4">
-						<div className="flex items-center">
-							<input
-								type="checkbox"
-								id="isAvailable"
-								name="isAvailable"
-								checked={formData.isAvailable === 1}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										isAvailable: e.target.checked ? 1 : 0,
-									})
-								}
-								className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
 							/>
-							<label
-								htmlFor="isAvailable"
-								className="ml-2 block text-sm text-gray-900"
-							>
-								Available
-							</label>
+
+							<div>
+								<label className="block text-sm font-medium text-gray-700 mb-1">
+									Category *
+								</label>
+								<select
+									name="category_id"
+									value={formData.category_id}
+									onChange={handleChange}
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									required
+								>
+									<option value={0}>Select a category</option>
+									{categories.map((cat) => (
+										<option key={cat.id} value={cat.id}>
+											{cat.name}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 
-						<div className="flex items-center">
-							<input
-								type="checkbox"
-								id="isPopular"
-								name="isPopular"
-								checked={formData.isPopular === 1}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										isPopular: e.target.checked ? 1 : 0,
-									})
-								}
-								className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-							/>
-							<label
-								htmlFor="isPopular"
-								className="ml-2 block text-sm text-gray-900"
-							>
-								Popular
-							</label>
+						<Input
+							label="Image URL"
+							name="image"
+							value={formData.image}
+							onChange={handleChange}
+						/>
+
+						<div className="grid grid-cols-2 gap-4">
+							<div className="flex items-center">
+								<input
+									type="checkbox"
+									id="isAvailable"
+									name="isAvailable"
+									checked={formData.isAvailable === 1}
+									onChange={(e) =>
+										setFormData({
+											...formData,
+											isAvailable: e.target.checked ? 1 : 0,
+										})
+									}
+									className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+								/>
+								<label
+									htmlFor="isAvailable"
+									className="ml-2 block text-sm text-gray-900"
+								>
+									Available
+								</label>
+							</div>
+
+							<div className="flex items-center">
+								<input
+									type="checkbox"
+									id="isPopular"
+									name="isPopular"
+									checked={formData.isPopular === 1}
+									onChange={(e) =>
+										setFormData({
+											...formData,
+											isPopular: e.target.checked ? 1 : 0,
+										})
+									}
+									className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+								/>
+								<label
+									htmlFor="isPopular"
+									className="ml-2 block text-sm text-gray-900"
+								>
+									Popular
+								</label>
+							</div>
 						</div>
-					</div>
 
-					<Input
-						label="Display Order"
-						name="order"
-						type="number"
-						value={formData.order}
-						onChange={handleChange}
-					/>
+						<Input
+							label="Display Order"
+							name="order"
+							type="number"
+							value={formData.order}
+							onChange={handleChange}
+						/>
 
-					<div className="flex justify-end space-x-3 pt-4">
-						<Button
-							variant="secondary"
-							onClick={handleCloseModal}
-							type="button"
-						>
-							Cancel
-						</Button>
-						<Button type="submit">
-							{editingProduct ? "Update" : "Create"}
-						</Button>
-					</div>
-				</form>
-			</Modal>
-		</AdminLayout>
+						<div className="flex justify-end space-x-3 pt-4">
+							<Button
+								variant="secondary"
+								onClick={handleCloseModal}
+								type="button"
+							>
+								Cancel
+							</Button>
+							<Button type="submit">
+								{editingProduct ? "Update" : "Create"}
+							</Button>
+						</div>
+					</form>
+				</Modal>
+			</AdminLayout>
+		</ProtectedRoute>
 	);
 }
